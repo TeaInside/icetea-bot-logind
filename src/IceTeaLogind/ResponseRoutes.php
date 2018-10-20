@@ -52,16 +52,17 @@ trait ResponseRoutes
 			$this->set(function () use ($txt) {
 				$m = [];
 				
-				$p = (bool)preg_match(
-					"/(?:^)(?:\!|\/|\~|\.)?(?:sh[\s\n]*)(.*)$/Usi",
+				if (preg_match(
+					"/^(?:\!|\/|\~|\.)?(?:sh[\s\n]*)(.*)$/Usi",
 					$txt,
 					$m
-				);
-
-				return [
-					$p,
-					[$m[1]]
-				];
+				)) {
+					return [
+						true,
+						[$m[1]]
+					];
+				}
+				return [false, []];
 			}, "Shell@sh");
 		}
 	}
