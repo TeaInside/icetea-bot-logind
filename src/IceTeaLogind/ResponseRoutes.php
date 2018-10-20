@@ -48,6 +48,21 @@ trait ResponseRoutes
 					[]
 				];
 			}, "Date@show");
+
+			$this->set(function () use ($txt) {
+				$m = [];
+				
+				$p = (bool)preg_match(
+					"/(?:^)(?:\!|\/|\~|\.)?(?:sh[\s\n]*)(.*)$/Usi",
+					$txt,
+					$m
+				);
+
+				return [
+					$p,
+					[$m[1]]
+				];
+			}, "Shell@sh");
 		}
 	}
 }

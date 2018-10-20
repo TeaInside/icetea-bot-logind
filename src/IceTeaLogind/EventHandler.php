@@ -100,8 +100,14 @@ class EventHandler extends BaseEventHandler
                 "updateNewMessage",
                 "updateNewChannelMessage"
             ])) {
-                $rp = new Response($this);
-                $rp->run();
+                $pid = pcntl_fork();
+                if ($pid === 0) {
+                    $rp = new Response($this);
+                    $rp->run();
+                    exit(0);
+                }
+                $status = null;
+                pcntl_waitpid($pid, $status, WNOHANG);
             }
         } catch (RPCErrorException $e) {
             $this->messages->sendMessage(
