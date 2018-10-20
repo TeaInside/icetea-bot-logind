@@ -18,6 +18,7 @@ class Shell extends ResponseAbstraction
 	 */
 	public function sh(string $cmd): bool
 	{
+		var_dump($this->ev->u);
 		if (!in_array($this->ev->u["message"]["user_id"], SUDOERS)) {
 			return false;
 		}
