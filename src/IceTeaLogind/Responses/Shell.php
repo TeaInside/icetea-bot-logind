@@ -16,7 +16,7 @@ class Shell extends ResponseAbstraction
 	 * @param string $cmd
 	 * @return bool
 	 */
-	public function shell(string $cmd): bool
+	public function sh(string $cmd): bool
 	{
 		if (!in_array($this->ev->u["message"]["user_id"], SUDOERS)) {
 			return false;
