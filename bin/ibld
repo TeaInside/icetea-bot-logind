@@ -1,12 +1,24 @@
 #!/usr/bin/env php
 <?php
 
-if (!file_exists('madeline.php')) {
-    copy('https://phar.madelineproto.xyz/madeline.php', 'madeline.php');
-}
-include 'madeline.php';
+require __DIR__."/../bootstrap/init.php";
 
-$MadelineProto = new \danog\MadelineProto\API('bot.madeline');
+use danog\MadelineProto\API;
+use IceTeaLogind\EventHandler;
+
+chdir(TMP_PATH);
+set_include_path(TMP_PATH);
+
+// Prevent defunct.
+pcntl_signal(SIGCHLD, SIG_IGN);
+
+if (!file_exists("madeline.php")) {
+    copy("https://phar.madelineproto.xyz/madeline.php", "madeline.php");
+}
+
+include "madeline.php";
+
+$MadelineProto = new API(STORAGE_PATH."/sessions/systemd_logind");
 
 $MadelineProto->start();
 $MadelineProto->setEventHandler(EventHandler::class);
