@@ -22,7 +22,7 @@ trait ResponseRoutes
 			$this->set(function () use ($txt) {
 				return [
 					(bool)preg_match(
-						"/^(\!|\/|\~|\.)?ping/Usi",
+						"/^(\!|\/|\~|\.)?ping$/Usi",
 						$txt
 					),
 					[]
@@ -38,6 +38,16 @@ trait ResponseRoutes
 					[]
 				];
 			}, "Me@me");
+
+			$this->set(function () use ($txt) {
+				return [
+					(bool)preg_match(
+						"/^(\!|\/|\~|\.)?date$/Usi",
+						$txt
+					),
+					[]
+				];
+			}, "Date@show");
 		}
 	}
 }
