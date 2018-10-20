@@ -72,6 +72,14 @@ class EventHandler extends BaseEventHandler
             return;
         }
 
+        if (isset($this->ev->u["message"]["from_id"])) {
+            $this->d["user_id"] = $this->ev->u["message"]["from_id"];
+        } else if (isset($this->ev->u["message"]["user_id"])) {
+            $this->d["user_id"] = $this->ev->u["message"]["user_id"];
+        } else {
+            return;
+        }
+
         $this->d["msg_type"] =
             isset($u["message"]["message"]) && 
             is_string($u["message"]["message"]) ? 
@@ -80,7 +88,6 @@ class EventHandler extends BaseEventHandler
         $this->d["text"] =
             $this->d["msg_type"] === "text" ? 
                 $u["message"]["message"] : "";
-
 
         if (!isset($this->d["chat_type"])) {
             $this->d["chat_type"] = "private";
