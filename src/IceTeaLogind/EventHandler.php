@@ -77,8 +77,10 @@ class EventHandler extends BaseEventHandler
         } else if (isset($this->ev->u["message"]["user_id"])) {
             $this->d["user_id"] = $this->ev->u["message"]["user_id"];
         } else {
-            return;
+            
         }
+
+        print json_encode($this->ev->u, 128);
 
         $this->d["msg_type"] =
             isset($u["message"]["message"]) && 
