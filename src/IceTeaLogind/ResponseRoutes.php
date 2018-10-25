@@ -65,5 +65,22 @@ trait ResponseRoutes
 				return [false, []];
 			}, "Shell@sh");
 		}
+		
+		
+		if (preg_match("/\@systemd_logind/Usi", $txt)) {
+			require __DIR__."/../../teaAI/bootstrap/init.php";
+			$st = new TeaAI\TeaAI("chat");
+			$st->setInput($txt);
+			$st = $st->run();
+			if (is_string($st)) {
+			$this->ev->messages->sendMessage(
+					[
+				"peer" => $this->ev->u,
+				"message" => $st,
+				"reply_to_msg_id" => $this->ev->u["message"]["id"]				
+					]
+				);
+			}
+		}
 	}
 }
