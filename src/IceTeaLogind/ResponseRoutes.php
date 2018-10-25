@@ -65,12 +65,9 @@ trait ResponseRoutes
 				return [false, []];
 			}, "Shell@sh");
 		}
-		
-			require BASEPATH."/../teaAI/bootstrap/init.php";
-			$st = new TeaAI\TeaAI("chat");
-			$st->setInput($txt);
-			$st = $st->run();
-			if (is_string($st)) {
+			$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".
+			BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input");
+			if ($st !== "") {
 			$this->ev->messages->sendMessage(
 					[
 				"peer" => $this->ev->u,
