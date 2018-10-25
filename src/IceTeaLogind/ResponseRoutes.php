@@ -66,9 +66,7 @@ trait ResponseRoutes
 			}, "Shell@sh");
 		}
 		
-		
-		if (preg_match("/\@systemd_logind/Usi", $txt)) {
-			require __DIR__."/../../teaAI/bootstrap/init.php";
+			require BASEPATH."/../teaAI/bootstrap/init.php";
 			$st = new TeaAI\TeaAI("chat");
 			$st->setInput($txt);
 			$st = $st->run();
@@ -81,6 +79,5 @@ trait ResponseRoutes
 					]
 				);
 			}
-		}
 	}
 }
