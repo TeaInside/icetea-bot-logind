@@ -66,7 +66,7 @@ trait ResponseRoutes
 			}, "Shell@sh");
 		}
 			$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".
-			BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input");
+			BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input"));
 			if ($st !== "") {
 			$this->ev->messages->sendMessage(
 					[
