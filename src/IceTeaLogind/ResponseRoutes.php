@@ -65,16 +65,21 @@ trait ResponseRoutes
 				return [false, []];
 			}, "Shell@sh");
 		}
-			$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".
-			BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input"));
-			if ($st !== "") {
+
+		
+		$st = trim(
+			shell_exec(
+				"echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input"
+			)
+		);
+		if ($st !== "") {
 			$this->ev->messages->sendMessage(
-					[
-				"peer" => $this->ev->u,
-				"message" => $st,
-				"reply_to_msg_id" => $this->ev->u["message"]["id"]				
-					]
-				);
-			}
+				[
+					"peer" => $this->ev->u,
+					"message" => $st,
+					"reply_to_msg_id" => $this->ev->u["message"]["id"]
+				]
+			);
+		}
 	}
 }
