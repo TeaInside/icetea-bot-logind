@@ -67,7 +67,7 @@ trait ResponseRoutes
 		}
 
 		$uVector = $this->ev->users->getUsers(
-			["id" => $this->ev->u]
+			["id" => [$this->ev->u]]
 		);
 		var_dump($uVector);
 		$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input"));
