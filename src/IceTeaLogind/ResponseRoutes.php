@@ -66,7 +66,7 @@ trait ResponseRoutes
 			}, "Shell@sh");
 		}
 
-		$uVector = $this->ev->getUsers($this->ev->u);
+		$uVector = $this->ev->users->getUsers($this->ev->u);
 		var_dump($uVector);
 		$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input"));
 		if ($st !== "") {
