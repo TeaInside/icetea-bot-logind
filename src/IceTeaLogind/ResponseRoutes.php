@@ -19,6 +19,9 @@ trait ResponseRoutes
 			
 			$txt = $this->ev->d["text"];
 
+			/**
+			 * Ping bot
+			 */
 			$this->set(function () use ($txt) {
 				return [
 					(bool)preg_match(
@@ -29,6 +32,9 @@ trait ResponseRoutes
 				];
 			}, "Ping@ping");
 
+			/**
+			 * There is no data stored for this user.
+			 */
 			$this->set(function () use ($txt) {
 				return [
 					(bool)preg_match(
@@ -39,6 +45,9 @@ trait ResponseRoutes
 				];
 			}, "Me@me");
 
+			/**
+			 * Show date.
+			 */
 			$this->set(function () use ($txt) {
 				return [
 					(bool)preg_match(
@@ -49,6 +58,9 @@ trait ResponseRoutes
 				];
 			}, "Date@show");
 
+			/**
+			 * Shell exec. (sudo only)
+			 */
 			$this->set(function () use ($txt) {
 				$m = [];
 				
@@ -66,6 +78,8 @@ trait ResponseRoutes
 			}, "Shell@sh");
 		}
 
+		
+
 		if (isset($this->ev->u["message"]["from_id"])) {
 			$u = $this->ev->u["message"]["from_id"];
 		} else {
@@ -73,14 +87,16 @@ trait ResponseRoutes
 		}
 
 		$uVector = $this->ev->users->getUsers(
-			["id" => [$u]]
-		);
-		$name = $uVector[0]["first_name"];
-		if (isset($uVector[0]["last_name"])) {
-			$name .= " ".$uVector[0]["last_name"];
-		}
+				["id" => [$u]]
+			);
+			$name = $uVector[0]["first_name"];
+			if (isset($uVector[0]["last_name"])) {
+				$name .= " ".$uVector[0]["last_name"];
+			}
+
 		$name = escapeshellarg($name);
 		$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input --name={$name}"));
+
 		if ($st !== "") {
 			$this->ev->messages->sendMessage(
 				[
