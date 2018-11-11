@@ -76,35 +76,47 @@ trait ResponseRoutes
 				}
 				return [false, []];
 			}, "Shell@sh");
-		}
 
-		
 
-		if (isset($this->ev->u["message"]["from_id"])) {
-			$u = $this->ev->u["message"]["from_id"];
-		} else {
-			$u = $this->ev->u;
-		}
 
-		$uVector = $this->ev->users->getUsers(
-				["id" => [$u]]
-			);
-			$name = $uVector[0]["first_name"];
-			if (isset($uVector[0]["last_name"])) {
-				$name .= " ".$uVector[0]["last_name"];
-			}
+			/**
+			 * Tea AI override.
+			 */
+			$this->set(function () use ($txt) {
+				return [true, []];
+			}, function () use ($txt) {
+				if (isset($this->ev->u["message"]["from_id"])) {
+					$u = $this->ev->u["message"]["from_id"];
+				} else {
+					$u = $this->ev->u;
+				}
 
-		$name = escapeshellarg($name);
-		$st = trim(shell_exec("echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input --name={$name}"));
+				$uVector = $this->ev->users->getUsers(
+					[
+						"id" => [$u]
+					]
+				);
 
-		if ($st !== "") {
-			$this->ev->messages->sendMessage(
-				[
-					"peer" => $this->ev->u,
-					"message" => $st,
-					"reply_to_msg_id" => $this->ev->u["message"]["id"]
-				]
-			);
+				$name = $uVector[0]["first_name"];
+				if (isset($uVector[0]["last_name"])) {
+					$name .= " ".$uVector[0]["last_name"];
+				}
+
+				$name = escapeshellarg($name);
+				$st = trim(shell_exec(
+					"echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input --name={$name}"
+				));
+
+				if ($st !== "") {
+					$this->ev->messages->sendMessage(
+						[
+							"peer" => $this->ev->u,
+							"message" => $st,
+							"reply_to_msg_id" => $this->ev->u["message"]["id"]
+						]
+					);
+				}
+			});
 		}
 	}
 }
