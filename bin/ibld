@@ -6,6 +6,8 @@ require __DIR__."/../bootstrap/init.php";
 use danog\MadelineProto\API;
 use IceTeaLogind\EventHandler;
 
+file_put_contents(PID_FILE, getmypid());
+
 chdir(TMP_PATH);
 set_include_path(TMP_PATH);
 

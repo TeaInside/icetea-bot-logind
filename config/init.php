@@ -10,3 +10,5 @@ define("SUDOERS",
 		243692601 // @ammarfaizi2
 	]
 );
+
+define("PID_FILE", STORAGE_PATH."/pid/ibld.pid");
