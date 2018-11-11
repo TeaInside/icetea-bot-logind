@@ -102,10 +102,11 @@ trait ResponseRoutes
 					$name .= " ".$uVector[0]["last_name"];
 				}
 
-				$name = escapeshellarg($name);
-				$st = trim(shell_exec(
-					"echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input --name={$name}"
-				));
+				// $name = escapeshellarg($name);
+				// $st = trim(shell_exec(
+				// 	"echo ".escapeshellarg($txt)." | php ".BASEPATH."/../teaAI/bin/TeaAI.php chat --stdout-output --stdin-input --name={$name}"
+				// ));
+				$st = trim(tea_ai_chat($txt, $name, $name));
 
 				if ($st !== "") {
 					$this->ev->messages->sendMessage(

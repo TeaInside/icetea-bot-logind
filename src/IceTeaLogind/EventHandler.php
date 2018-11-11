@@ -39,7 +39,6 @@ class EventHandler extends BaseEventHandler
     public function onAny(array $u): void
     {
         $this->u = $u;
-        var_dump("any", $u);
         Logger::log("Received an update of type ".$u["_"]);
     }
 
@@ -57,7 +56,6 @@ class EventHandler extends BaseEventHandler
      */
     public function onUpdateNewChannelMessage(array $u): void
     {
-        var_dump("channel update", $u);
         $this->d["chat_type"] = "channel";
         $this->onUpdateNewMessage($u);
     }
@@ -68,7 +66,6 @@ class EventHandler extends BaseEventHandler
      */
     public function onUpdateNewMessage(array $u): void
     {
-        var_dump("new message update", $u);
         $this->u = $u;
         if (empty($u)) {
             return;
